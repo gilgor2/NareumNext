@@ -4,7 +4,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import React from 'react';
 import { expect } from '@storybook/jest';
 import NoticeDispenser from './NoticeDispenser';
-import { sleep } from '../../../utility/utility';
+import { sleep } from '../../../../utility/utility';
 import { NoticeContext, useNotice } from './hook';
 
 const meta: Meta<typeof NoticeDispenser> = {

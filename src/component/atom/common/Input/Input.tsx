@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import useTypedebounce from '../../../utility/hook/useTypeDebounce';
+import useTypedebounce from '../../../../utility/hook/useTypeDebounce';
 
 type InputProps = {
 	state: string;

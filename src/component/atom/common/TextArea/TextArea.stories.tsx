@@ -3,7 +3,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import { expect, jest } from '@storybook/jest';
 
 import TextArea from './TextArea';
-import { sleep } from '../../../utility/utility';
+import { sleep } from '../../../../utility/utility';
 
 const meta: Meta<typeof TextArea> = {
 	title: 'component/atom/TextArea/TextArea.stories.tsx',

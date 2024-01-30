@@ -1,7 +1,7 @@
 'use cient';
 
 import React, { useEffect } from 'react';
-import useTypedebounce from '../../../utility/hook/useTypeDebounce';
+import useTypedebounce from '../../../../utility/hook/useTypeDebounce';
 
 type TextAreaProps = {
 	state: string;

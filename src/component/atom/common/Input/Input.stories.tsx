@@ -3,7 +3,7 @@ import { jest, expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
 import { getByText, userEvent, within } from '@storybook/testing-library';
 
-import { sleep } from '../../../utility/utility';
+import { sleep } from '../../../../utility/utility';
 import Input from './Input';
 
 const meta: Meta<typeof Input> = {

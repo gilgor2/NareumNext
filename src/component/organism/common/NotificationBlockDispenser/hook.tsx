@@ -1,7 +1,7 @@
 import {
  ReactElement, createContext, useMemo, useState,
 } from 'react';
-import { generateUniqueId } from '../../../utility/utility';
+import { generateUniqueId } from '../../../../utility/utility';
 
 export type Notice = {
 	component: ReactElement;

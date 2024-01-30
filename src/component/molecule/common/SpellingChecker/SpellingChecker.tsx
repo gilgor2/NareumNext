@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import TextArea from '../../atom/TextArea/TextArea';
+import TextArea from '../../../atom/common/TextArea/TextArea';
 
 type Props = {
 	onSpellCorrect: (isCorrect: boolean) => void;

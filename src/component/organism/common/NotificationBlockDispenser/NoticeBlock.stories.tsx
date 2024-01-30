@@ -4,7 +4,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import { expect, jest } from '@storybook/jest';
 
 import NoticeBlock from './NoticeBlock';
-import { sleep } from '../../../utility/utility';
+import { sleep } from '../../../../utility/utility';
 
 const meta: Meta<typeof NoticeBlock> = {
 	title: 'component/molecule/NoticeBlock/NoticeBlock.stories.tsx',
