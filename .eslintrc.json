@@ -26,11 +26,13 @@
     "jsx-a11y/click-events-have-key-events":0,
     "react-hooks/exhaustive-deps":0,
     "jsx-a11y/no-autofocus":0,
+    "react/react-in-jsx-scope":0,
     "prettier/prettier":0,
     "@typescript-eslint/indent":0,
     "no-tabs":0,
     "linebreak-style":0,
-    "import/no-extraneous-dependencies":0
+    "import/no-extraneous-dependencies":0,
+    "@next/next/no-page-custom-font":0
   }
 }
 
