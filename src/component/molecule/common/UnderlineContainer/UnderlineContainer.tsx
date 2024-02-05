@@ -1,7 +1,9 @@
-import React, { ReactElement, useState } from 'react';
+'use client';
+
+import React, { ReactNode, useState } from 'react';
 
 type Props = {
-	children?: ReactElement;
+	children?: ReactNode;
 	active?: boolean;
 	className?: string;
 	disable?: boolean;

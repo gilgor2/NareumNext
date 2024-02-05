@@ -1,7 +1,7 @@
+'use client';
+
 import React, { useRef } from 'react';
 
-let prevMouseX = 0;
-let prevMouseY = 0;
 export default function MouseDodgingSpan({
 	text,
 	className = '',
@@ -9,6 +9,9 @@ export default function MouseDodgingSpan({
 	text: string;
 	className?: string;
 }) {
+	let prevMouseX = 0;
+	let prevMouseY = 0;
+
 	const spanRef = useRef<HTMLSpanElement>(null);
 
 	const handleSpanMouseEvent = (e: React.MouseEvent<HTMLSpanElement>) => {
