@@ -32,7 +32,8 @@
     "no-tabs":0,
     "linebreak-style":0,
     "import/no-extraneous-dependencies":0,
-    "@next/next/no-page-custom-font":0
+    "@next/next/no-page-custom-font":0,
+    "max-len":"off"
   }
 }
 
