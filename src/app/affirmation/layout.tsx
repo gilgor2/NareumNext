@@ -1,4 +1,4 @@
-import NoticeContextProvider from '@/component/organism/common/NoticeContextProvider';
+import NoticeContextProvider from '@/component/organism/common/NotificationBlockDispenser/NoticeContextProvider';
 
 export default function Affirmationlayout({
     children,
@@ -7,7 +7,7 @@ export default function Affirmationlayout({
   }>) {
   return (
     <NoticeContextProvider>
-      <div className="flex  h-[100vh] items-center justify-center">
+      <div className="flex  h-[100%] items-center justify-center">
         { children }
       </div>
     </NoticeContextProvider>

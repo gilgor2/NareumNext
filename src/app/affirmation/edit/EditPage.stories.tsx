@@ -22,14 +22,12 @@ export const AddPromise: Story = {
 		const canvas = within(canvasElement);
 		// 다짐 추가
 		await userEvent.type(
-			canvas.getAllByRole('textbox')[canvas.getAllByRole('textbox').length - 1],
+			canvas.getByRole('textbox'),
 			'promise',
 		);
-		const prevLength = canvas.getAllByRole('textbox').length;
 
-		await userEvent.click(canvas.getAllByRole('button')[canvas.getAllByRole('button').length - 1]);
-
-		await expect(canvas.getAllByRole('textbox').length).toBe(prevLength + 1);
+		await userEvent.click(canvas.getAllByRole('button')[canvas.getAllByRole('button').length - 2]);
+		expect(canvas.getAllByTestId('deleteButton').length).toBe(1);
 	},
 };
 
@@ -39,18 +37,16 @@ export const DeletePromise: Story = {
 
 		// 다짐 추가
 		await userEvent.type(
-			canvas.getAllByRole('textbox')[canvas.getAllByRole('textbox').length - 1],
+			canvas.getByRole('textbox'),
 			'promise',
 		);
 
-		await userEvent.click(canvas.getAllByRole('button')[canvas.getAllByRole('button').length - 1]);
-		const prevLength = canvas.getAllByRole('textbox').length;
-		// 다짐 삭제
+		await userEvent.click(canvas.getAllByRole('button')[canvas.getAllByRole('button').length - 2]);
 		await userEvent.click(
 			canvas.getAllByTestId('deleteButton')[0],
 		);
 
-		await expect(canvas.getAllByRole('textbox').length).toBe(prevLength - 1);
+		expect(canvas.queryByTestId('deleteButton')).toBeNull();
 	},
 };
 
@@ -60,12 +56,11 @@ export const Focus: Story = {
 
 		// 다짐 추가
 		await userEvent.keyboard('promise');
-		const prevLength = canvas.getAllByRole('textbox').length;
 
 		await userEvent.keyboard('[Tab]');
 
 		await userEvent.keyboard('[Enter]');
 
-		await expect(canvas.getAllByRole('textbox').length).toBe(prevLength + 1);
+		expect(canvas.getAllByTestId('deleteButton').length).toBe(1);
 	},
 };
