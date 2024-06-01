@@ -18,7 +18,7 @@ export default function UnderlineContainer({
 
 	return (
   <div
-    className={`${className}w-max h-max`}
+    className={`${className} w-max h-max`}
     onFocus={() => {
 				setisUnderLine(true);
 			}}

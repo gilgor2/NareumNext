@@ -1,13 +1,13 @@
 import React from 'react';
 import { jest, expect } from '@storybook/jest';
 import type { Meta, StoryObj } from '@storybook/react';
-import { getByText, userEvent, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { sleep } from '../../../../utility/utility';
 import Input from './Input';
 
 const meta: Meta<typeof Input> = {
-	title: 'component/atom/Input/Input.stories.tsx',
+	title: 'component/atom/common/Input/Input.stories.tsx',
 	tags: ['autodocs'],
 	component: Input,
 
@@ -52,7 +52,6 @@ export const OriginalStateShown: Story = {
 	args: { state: 'hello' },
 	play: async ({ canvasElement, args }) => {
 		const canvas = within(canvasElement);
-
-		await expect(canvas.getByText('hello')).toBeInTheDocument();
+		await expect(canvas.getByDisplayValue('hello')).toBeInTheDocument();
 	},
 };

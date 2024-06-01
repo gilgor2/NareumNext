@@ -6,7 +6,7 @@ import { expect } from '@storybook/jest';
 import UnderlineContainer from './UnderlineContainer';
 
 const meta: Meta<typeof UnderlineContainer> = {
-	title: 'component/molecule/UnderlineContainer/UnderlineContainer.stories.tsx',
+	title: 'component/molecule/common/UnderlineContainer/UnderlineContainer.stories.tsx',
 	tags: ['autodocs'],
 	component: UnderlineContainer,
 };

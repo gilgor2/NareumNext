@@ -5,7 +5,7 @@ import useTypedebounce from '../../../../utility/hook/useTypeDebounce';
 
 type InputProps = {
 	state: string;
-	setstate?: React.Dispatch<React.SetStateAction<string>>;
+	setstate?: React.Dispatch<React.SetStateAction<string>> | ((str:string)=>void);
 	placeholder: string;
 	debounceTime?: number;
 	readOnly?: boolean;

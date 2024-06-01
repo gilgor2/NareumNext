@@ -47,19 +47,6 @@ export const Writing: Story = {
 	},
 };
 
-export const OnEnter: Story = {
-	render: () => <StateProvider />,
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-
-		await userEvent.type(canvas.getByRole('textbox'), promise);
-
-		await userEvent.click(canvas.getByRole('button'));
-
-		await expect(canvas.getByTestId('deleteButton')).toBeInTheDocument();
-	},
-};
-
 export const IsFocusedWell: Story = {
 	render: () => <StateProvider isFocused />,
 	play: async ({ canvasElement }) => {

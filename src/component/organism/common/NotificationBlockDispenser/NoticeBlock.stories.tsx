@@ -7,7 +7,7 @@ import NoticeBlock from './NoticeBlock';
 import { sleep } from '../../../../utility/utility';
 
 const meta: Meta<typeof NoticeBlock> = {
-	title: 'component/molecule/NoticeBlock/NoticeBlock.stories.tsx',
+	title: 'component/molecule/common/NoticeBlock/NoticeBlock.stories.tsx',
 	tags: ['autodocs'],
 	component: NoticeBlock,
 };

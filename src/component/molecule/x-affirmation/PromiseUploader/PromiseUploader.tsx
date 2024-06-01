@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
-import { createPromise } from '@/action/affirmationAction';
 import PromiseEditor from '../PromiseEditor/PromiseEditor';
 
-export default function PromiseUploader() {
+type PromiseAddFunction = (text:string)=>void;
+export default function PromiseUploader({ addPromise }:{ addPromise:PromiseAddFunction }) {
   const [newPromiseText, setnewPromiseText] = useState('');
   const [isEditorFocused, setisEditorFocused] = useState(true);
 
@@ -16,11 +16,10 @@ export default function PromiseUploader() {
 	setisEditorFocused(true);
 };
 
-const onUpload = () => {
-	// promiseListStore.addPromise(newPromiseText);
+const onUpload = async () => {
 	setnewPromiseText('');
 	focusNewPromiseEditor();
-	createPromise(newPromiseText);
+	addPromise(newPromiseText);
 };
     return (
       <PromiseEditor
