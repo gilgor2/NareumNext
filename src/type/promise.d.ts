@@ -4,3 +4,9 @@ export type Promise = {
 	id: string;
 	transcribeCnt: number;
 };
+export type DBPromise = {
+    id?:number
+    created_at?:Date;
+    text:string;
+    transcribe_cnt:number
+};
