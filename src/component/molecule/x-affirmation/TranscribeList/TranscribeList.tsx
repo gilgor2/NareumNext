@@ -16,9 +16,9 @@ export default function TranscribeList({ promiseList }:{ promiseList:Promise[] }
 	};
 
   const onSubmit = async () => {
-    updatePromiseAddCnt();
-    updateRecentTranscriptTimeNow();
-		noticeStore.openNoticeForMs(<div>{NOTICE_MESSAGE.WELL_DONE}</div>, 3000);
+		noticeStore.openNoticeForMs(<div>{NOTICE_MESSAGE.WELL_DONE}</div>, 2000);
+    await updatePromiseAddCnt();
+    await updateRecentTranscriptTimeNow();
   };
     return (
       <>
