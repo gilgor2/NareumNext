@@ -5,7 +5,7 @@ import { expect, jest } from '@storybook/jest';
 import SpellingChecker from './SpellingChecker';
 
 const meta: Meta<typeof SpellingChecker> = {
-	title: 'component/molecule/SpellingChecker/SpellingChecker.stories.tsx',
+	title: 'component/molecule/common/SpellingChecker/SpellingChecker.stories.tsx',
 	tags: ['autodocs'],
 	component: SpellingChecker,
 	args: { isActive: true },

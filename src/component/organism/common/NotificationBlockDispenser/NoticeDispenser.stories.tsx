@@ -8,7 +8,7 @@ import { sleep } from '../../../../utility/utility';
 import { NoticeContext, useNotice } from './hook';
 
 const meta: Meta<typeof NoticeDispenser> = {
-	title: 'component/organism/NoticeDispenser/NoticeDispenser.stories.tsx',
+	title: 'component/organism/common/NoticeDispenser/NoticeDispenser.stories.tsx',
 	tags: ['autodocs'],
 	component: NoticeDispenser,
 };
@@ -52,7 +52,8 @@ function NoticeBlockCloser() {
 	const noticeStore = useNotice();
 	const closeBlock = async () => {
 		const id = noticeStore.openNotice(<div title="child">original</div>);
-		await sleep(1000);
+
+		await sleep(500);
 		noticeStore.closeNotice(id);
 	};
 
@@ -72,8 +73,8 @@ export const CloseAnimation: Story = {
 		const provider = canvas.getByTitle('provider');
 
 		await userEvent.click(provider);
-		await sleep(2000);
+		await sleep(1500);
 
-		await expect(canvas.queryByText('original')).not.toBeInTheDocument();
+		await expect(canvas.queryByText('original')).toBeNull();
 	},
 };

@@ -6,7 +6,7 @@ import TextArea from './TextArea';
 import { sleep } from '../../../../utility/utility';
 
 const meta: Meta<typeof TextArea> = {
-	title: 'component/atom/TextArea/TextArea.stories.tsx',
+	title: 'component/atom/common/TextArea/TextArea.stories.tsx',
 	tags: ['autodocs'],
 	component: TextArea,
 };
