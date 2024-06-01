@@ -36,9 +36,9 @@ export default function PictureEditBox({
       <div className="h-[3rem]" />
       <button onClick={() => { onDeleteCategory(category); }} type="button" className="material-icons bg-redd h-[4rem] rounded-xl w-[100%] bg-opacity-70">
         <span className="text-[2rem] text-white">
-          "
+          &rdquo
           {category}
-          " 삭제하기
+          &rdquo 삭제하기
         </span>
 
       </button>
