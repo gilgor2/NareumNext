@@ -32,9 +32,11 @@ jobs:
       #   run: npm run build
       - name: Run Storybook
         run: npm run build-storybook
-
-      - name: UI Test
-        run: npm run test-storybook
+      - name: Run Storybook Test
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && npm test-storybook"
 
       - name: Create Pull Request On 'Dev'
         if: success()
