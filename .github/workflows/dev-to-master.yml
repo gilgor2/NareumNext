@@ -25,22 +25,22 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
 
-      # - name: Install npm
-      #   run: npm install
+      - name: Install dependencies
+        run: |
+          npm install
+          npm i concurrently
+          npm i wait-on
 
       # - name: Build Test
       #   run: npm run build
-      - name: Install dependencies
-        run: yarn
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-      - name: Build Storybook
-        run: yarn build-storybook --quiet
-      - name: Serve Storybook and run tests
+      - name: Run Storybook
+        run: npm run build-storybook
+      - name: Run Storybook Test
         run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on tcp:6006 && yarn test-storybook"
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue"
+          npx http-server storybook-static --port 6006 --silent
+          npx wait-on tcp:6006 && npm test-storybook
+
       - name: Create Pull Request On 'Dev'
         if: success()
         uses: actions/github-script@v6
