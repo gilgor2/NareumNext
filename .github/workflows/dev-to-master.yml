@@ -27,9 +27,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          npm install concurrently wait-on
           npm install
-          npm i concurrently
-          npm i wait-on
 
       # - name: Build Test
       #   run: npm run build
