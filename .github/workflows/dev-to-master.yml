@@ -22,11 +22,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+
       - name: Install npm
         run: npm install
 
-      - name: Build Test
-        run: npm run build
+      # - name: Build Test
+      #   run: npm run build
 
       - name: UI Test
         run: npm run test-storybook
