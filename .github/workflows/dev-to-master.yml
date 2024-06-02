@@ -5,13 +5,12 @@ name: dev-to-master
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
   pull_request:
-    branches: [ "dev" ]
+    branches: ['dev']
 
 jobs:
   Send-pr-to-master:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,20 +19,23 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Build Test
-      run: npm build
-    
-    - name: UI Test
-      run: npm test-storybook
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Create Pull Request On 'Dev'
-      if: success()
-      uses: actions/github-script@v6
-      with:
-        script: |
+      - name: Install npm
+        run: npm install
+
+      - name: Build Test
+        run: npm build
+
+      - name: UI Test
+        run: npm test-storybook
+
+      - name: Create Pull Request On 'Dev'
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          script: |
             const { repo, owner } = context.repo;
             const result = await github.rest.pulls.create({
               title: `PR From ${repo}`,
