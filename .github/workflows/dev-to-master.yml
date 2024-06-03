@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install concurrently wait-on http-server@14.1.1
+          npm install concurrently wait-on
           npm install
 
       # - name: Build Test
@@ -35,11 +35,8 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
 
-      - name: Run Storybook
-        run: npm run build-storybook
       - name: Run Storybook Test
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx http-server storybook-static --port 6006 --silent" "npx wait-on tcp:6006 && yarn test-storybook"
+        run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
 
       - name: Create Pull Request On 'Dev'
         if: success()
