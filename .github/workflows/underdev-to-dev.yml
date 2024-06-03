@@ -1,0 +1,50 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: dev-to-master
+
+on:
+  push:
+    branches: ['dev/front/**', dev/back/**]
+  pull_request:
+    branches: ['dev/front/**', dev/back/**]
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+  pull-requests: write
+
+jobs:
+  pr-to-dev:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request On 'Dev'
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{github.token}}
+          script: |
+            const { repo, owner } = context.repo;
+            const result = await github.rest.pulls.create({
+              title: `PR From ${repo}`,
+              owner,
+              repo,
+              head: '${{ github.ref_name }}',
+              base: 'dev',
+               body: "automated pr by github action"
+            });
+            github.rest.issues.addLabels({
+              owner,
+              repo,
+              issue_number: result.data.number,
+              labels: ['feature', 'automated pr']
+            });
