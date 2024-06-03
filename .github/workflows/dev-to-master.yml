@@ -16,7 +16,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  Send-pr-to-master:
+  Build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -30,18 +30,48 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
 
-      # - name: Install dependencies
-      #   run: |
-      #     npm install concurrently wait-on
-      #     npm install
+      - name: Install dependencies
+        run: npm install
 
-      # # - name: Build Test
-      # #   run: npm run build
-      # - name: Install Playwright
-      #   run: npx playwright install --with-deps
+      - name: Build Test
+        run: npm run build
 
-      # - name: Run Storybook Test
-      #   run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
+  Test with Storybook:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: |
+          npm install concurrently wait-on
+          npm install
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Storybook Test
+        run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
+
+  Send pr to Master:
+    needs: [Build, Test with Storybook]
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Create Pull Request On 'Dev'
         if: success()
