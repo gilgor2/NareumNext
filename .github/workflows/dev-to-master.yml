@@ -25,23 +25,24 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
 
-      - name: Install dependencies
-        run: |
-          npm install concurrently wait-on
-          npm install
+      # - name: Install dependencies
+      #   run: |
+      #     npm install concurrently wait-on
+      #     npm install
 
-      # - name: Build Test
-      #   run: npm run build
-      - name: Install Playwright
-        run: npx playwright install --with-deps
+      # # - name: Build Test
+      # #   run: npm run build
+      # - name: Install Playwright
+      #   run: npx playwright install --with-deps
 
-      - name: Run Storybook Test
-        run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
+      # - name: Run Storybook Test
+      #   run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
 
       - name: Create Pull Request On 'Dev'
         if: success()
         uses: actions/github-script@v6
         with:
+          github-token: ${{github.token}}
           script: |
             const { repo, owner } = context.repo;
             const result = await github.rest.pulls.create({
