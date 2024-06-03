@@ -5,35 +5,80 @@ name: dev-to-master
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ['dev']
   pull_request:
-    branches: [ "dev" ]
+    branches: ['dev']
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+  pull-requests: write
 
 jobs:
-  Send-pr-to-master:
-
+  Build:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version: [14.x]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Build Test
-      run: npm build
-    
-    - name: UI Test
-      run: npm test-storybook
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Create Pull Request On 'Dev'
-      if: success()
-      uses: actions/github-script@v6
-      with:
-        script: |
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Test
+        run: npm run build
+
+  TestStorybook:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: |
+          npm install concurrently wait-on
+          npm install
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Storybook Test
+        run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
+
+  prToMaster:
+    needs: [Build, TestStorybook]
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request On 'Dev'
+        if: success()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{github.token}}
+          script: |
             const { repo, owner } = context.repo;
             const result = await github.rest.pulls.create({
               title: `PR From ${repo}`,
