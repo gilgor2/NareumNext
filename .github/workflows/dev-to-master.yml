@@ -32,6 +32,9 @@ jobs:
 
       # - name: Build Test
       #   run: npm run build
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
       - name: Run Storybook
         run: npm run build-storybook
       - name: Run Storybook Test
