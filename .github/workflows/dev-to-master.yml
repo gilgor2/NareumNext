@@ -17,6 +17,10 @@ jobs:
       matrix:
         node-version: [14.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
 
     steps:
       - name: Checkout
@@ -25,10 +29,10 @@ jobs:
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
 
-      # - name: Install dependencies
-      #   run: |
-      #     npm install concurrently wait-on
-      #     npm install
+      - name: Install dependencies
+        run: |
+          npm install concurrently wait-on
+          npm install
 
       # # - name: Build Test
       # #   run: npm run build
