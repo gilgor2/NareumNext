@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install concurrently wait-on
+          npm install concurrently wait-on http-server@14.1.1
           npm install
 
       # - name: Build Test
