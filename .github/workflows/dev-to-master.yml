@@ -96,5 +96,5 @@ jobs:
             await github.rest.pulls.merge({
               owner,
               repo,
-              pull_number:result.data.id
+              pull_number:result.data.number
             });
