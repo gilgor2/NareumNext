@@ -16,7 +16,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,7 +36,7 @@ jobs:
       - name: Build Test
         run: npm run build
 
-  TestStorybook:
+  test-storybook:
     runs-on: ubuntu-latest
 
     strategy:
