@@ -16,7 +16,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -36,7 +36,7 @@ jobs:
       - name: Build Test
         run: npm run build
 
-  TestStorybook:
+  test-storybook:
     runs-on: ubuntu-latest
 
     strategy:
@@ -62,7 +62,7 @@ jobs:
         run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
 
   pr-to-master:
-    needs: [Build, TestStorybook]
+    needs: [build, test-storybook]
     runs-on: ubuntu-latest
 
     strategy:
@@ -81,7 +81,7 @@ jobs:
           script: |
             const { repo, owner } = context.repo;
             const result = await github.rest.pulls.create({
-              title: `PR From ${repo}`,
+              title: `pr From ${repo}`,
               owner,
               repo,
               head: '${{ github.ref_name }}',
