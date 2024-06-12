@@ -9,18 +9,18 @@ export default async function ExhibitSection() {
 
   // redirect
   if (!Object.keys(boardData)[0]) {
-      redirect('/board/edit');
+    redirect('/board/edit');
   }
 
-	return (
-  <div className="relative">
-    <Image src="https://picsum.photos/200" alt="asd" width="200" height="200" />
+  return (
+    <div className="relative">
+      <Image src="https://picsum.photos/200" alt="asd" width="200" height="200" />
 
-    <Link href="/board/edit">
-      <ActionButton className="w-[40px] top-[calc(50%-40px)] absolute right-10">
-        수정
-      </ActionButton>
-    </Link>
-  </div>
-	);
+      <Link href="/board/edit">
+        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[40px]">
+          수정
+        </ActionButton>
+      </Link>
+    </div>
+  );
 }

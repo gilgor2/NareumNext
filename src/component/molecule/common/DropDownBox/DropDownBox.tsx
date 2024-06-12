@@ -1,47 +1,42 @@
-import React, {
- useCallback, useEffect, useRef, useState,
-} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 type Props = {
-    setstate:(state:string | File)=>void;
-    readOnly?:boolean
+  setstate: (state: string | File) => void;
+  readOnly?: boolean;
 };
-export default function DropDownBox({
-  setstate,
-  readOnly = false,
-}:Props) {
+export default function DropDownBox({ setstate, readOnly = false }: Props) {
   const dragRef = useRef<HTMLLabelElement>(null);
-  const handleDragIn = useCallback((e:DragEvent) => {
+  const handleDragIn = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
-  const handleDragOut = useCallback((e:DragEvent) => {
+  const handleDragOut = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
-  const handleDragOver = useCallback((e:DragEvent) => {
+  const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
   const onChangeFiles = useCallback(
-    (e:React.ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files || [''];
-        setstate(files[0]);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files || [''];
+      setstate(files[0]);
     },
     [setstate],
   );
   const onDropFiles = useCallback(
-    (e:DragEvent) => {
-    const files = e.dataTransfer?.files || [''];
+    (e: DragEvent) => {
+      const files = e.dataTransfer?.files || [''];
       setstate(files[0]);
     },
     [setstate],
   );
 
   const handleDrop = useCallback(
-    (e:DragEvent) => {
+    (e: DragEvent) => {
       e.preventDefault();
       e.stopPropagation();
       onDropFiles(e);
@@ -76,16 +71,15 @@ export default function DropDownBox({
 
   return (
     <label
-      className="border-8 w-[100%] h-[200px] flex justify-center items-center"
+      className="flex h-[200px] w-[100%] items-center justify-center border-8"
       htmlFor="abc44"
       ref={dragRef}
     >
-
       <span
         style={{
-            textAlign: 'center',
-            color: 'var(--textGray)',
-          }}
+          textAlign: 'center',
+          color: 'var(--textGray)',
+        }}
       >
         Drag and Drop
         <br />

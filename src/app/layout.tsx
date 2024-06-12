@@ -23,9 +23,7 @@ export default function RootLayout({
       </head>
       <body>
         <NavigationHeader />
-        <div className="h-[calc(100vh-5rem)]">
-          {children}
-        </div>
+        <div className="h-[calc(100vh-5rem)]">{children}</div>
       </body>
     </html>
   );

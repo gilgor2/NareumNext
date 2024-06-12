@@ -12,51 +12,63 @@ import PictureEditBox from '@/component/organism/x-board/PictureEditBox/PictureE
 import { useBoardEditPageState } from './hooks';
 
 export default function EditPage() {
-    const noticeStore = useContext(NoticeContext);
-    const {
-      boardData,
-      targetCategory,
-      isPopup,
-      openPopup,
-      closePopup,
+  const noticeStore = useContext(NoticeContext);
+  const {
+    boardData,
+    targetCategory,
+    isPopup,
+    openPopup,
+    closePopup,
 
-      addImageTo,
-      dropImageTo,
-      deleteImageFrom,
-      deleteCategory,
-      editCategory,
-      addNewCategory,
+    addImageTo,
+    dropImageTo,
+    deleteImageFrom,
+    deleteCategory,
+    editCategory,
+    addNewCategory,
   } = useBoardEditPageState();
   return (
     <>
       {!isPopup && (
-      <div className="flex flex-wrap justify-between h-[100%] px-[10%] py-[5%]">
-        {boardData
-        .map(({ name, srcArr }, i) => (
-          <PictureListContainer
-            key={i}
-            title={name}
-            srcArray={srcArr}
-            onClickPlusButton={() => { openPopup(name); }}
-          />
-      ))}
-        {Object.keys(boardData).length < MAX_BOARD_CATEGORY_COUNT && <PlusButton onClick={addNewCategory} className="w-[40%] h-[45%] text-[30rem]" />}
-      </div>
-)}
+        <div className="flex h-[100%] flex-wrap justify-between px-[10%] py-[5%]">
+          {boardData.map(({ name, srcArr }, i) => (
+            <PictureListContainer
+              key={i}
+              title={name}
+              srcArray={srcArr}
+              onClickPlusButton={() => {
+                openPopup(name);
+              }}
+            />
+          ))}
+          {Object.keys(boardData).length < MAX_BOARD_CATEGORY_COUNT && (
+            <PlusButton onClick={addNewCategory} className="h-[45%] w-[40%] text-[30rem]" />
+          )}
+        </div>
+      )}
 
       {isPopup && (
-      <div className="flex items-center h-[100%] px-[10%] border-10 border-red">
-        <PictureEditBox category={targetCategory} srcArray={(boardData[boardData.findIndex((obj) => obj.name === targetCategory)]?.srcArr)} onDeleteImage={deleteImageFrom} onDeleteCategory={deleteCategory} editCategory={editCategory} />
-      </div>
-)}
-      <PictureAddModal isOpen={isPopup} closeSelf={closePopup} onClickPicture={addImageTo} onDropImage={dropImageTo} />
+        <div className="border-10 border-red flex h-[100%] items-center px-[10%]">
+          <PictureEditBox
+            category={targetCategory}
+            srcArray={boardData[boardData.findIndex((obj) => obj.name === targetCategory)]?.srcArr}
+            onDeleteImage={deleteImageFrom}
+            onDeleteCategory={deleteCategory}
+            editCategory={editCategory}
+          />
+        </div>
+      )}
+      <PictureAddModal
+        isOpen={isPopup}
+        closeSelf={closePopup}
+        onClickPicture={addImageTo}
+        onDropImage={dropImageTo}
+      />
       <Link href="/board/exhibit">
-        <ActionButton className="w-[40px] absolute right-10 top-[calc(50%-40px)]">
+        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[40px]">
           완료
         </ActionButton>
       </Link>
-
     </>
-
   );
 }
