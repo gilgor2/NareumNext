@@ -28,7 +28,7 @@ export default function EditPage() {
     addNewCategory,
   } = useBoardEditPageState();
   return (
-    <>
+    <div className="pr-[10rem]">
       {!isPopup && (
         <div className="flex h-[100%] flex-wrap justify-between px-[10%] py-[5%]">
           {boardData.map(({ name, srcArr }, i) => (
@@ -42,7 +42,10 @@ export default function EditPage() {
             />
           ))}
           {Object.keys(boardData).length < MAX_BOARD_CATEGORY_COUNT && (
-            <PlusButton onClick={addNewCategory} className="h-[45%] w-[40%] text-[30rem]" />
+            <PlusButton
+              onClick={addNewCategory}
+              className="h-[45%] w-[40%] !text-[24rem] !leading-[24rem]"
+            />
           )}
         </div>
       )}
@@ -65,10 +68,10 @@ export default function EditPage() {
         onDropImage={dropImageTo}
       />
       <Link href="/board/exhibit">
-        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[40px]">
+        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[5rem]">
           완료
         </ActionButton>
       </Link>
-    </>
+    </div>
   );
 }

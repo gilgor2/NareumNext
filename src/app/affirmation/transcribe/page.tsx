@@ -22,11 +22,11 @@ export default async function TranscribePage() {
 
   return (
     <>
-      <div className="relative">
+      <div className="relative pr-[10rem]">
         <TranscribeList promiseList={promiseList} />
       </div>
       <Link href="/affirmation/edit">
-        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[40px]">
+        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[5rem]">
           수정
         </ActionButton>
       </Link>

@@ -20,11 +20,11 @@ export default async function ExhibitSection() {
 
   // 여러 화면을 랜덤으로 띄워주는 역할
   return (
-    <div className="relative">
+    <div className="relative pr-[10rem]">
       <PaintingDiagonal promiseList={promiseList} />
       <div className="w-[60px]" />
       <Link href="/affirmation/edit">
-        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[40px]">
+        <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[5rem]">
           수정
         </ActionButton>
       </Link>
