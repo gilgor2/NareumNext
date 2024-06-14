@@ -23,7 +23,7 @@ export default function PictureListContainer({ title, srcArray, onClickPlusButto
           <ImageBox key={i} src={src} alt={src} width="30%" height="45%" />
         ))}
         {srcArray.length < MAX_IMAGE_PER_CATEGORY && (
-          <PlusButton onClick={onClickPlusButton} className="h-[45%] w-[30%] text-[15rem]" />
+          <PlusButton onClick={onClickPlusButton} className="h-[45%] w-[30%] !text-[5rem]" />
         )}
       </div>
     </div>

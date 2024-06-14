@@ -1,20 +1,22 @@
 export function sleep(ms: number) {
-	/*eslint-disable */
-	return new Promise((resolve) => setTimeout(resolve, ms));
+  /*eslint-disable */
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
-export function generateUniqueId(){
-		return Math.random().toString(36);
-}
-
-export function getDataFromStorage(key:string){
-	const data = localStorage.getItem(key)
-	if(!!data ){
-		return JSON.parse(data)		
-	}
-	return false
-	
+export function generateUniqueId() {
+  return Math.random().toString(36);
 }
 
-export function setDataToStorage(key:string,data:unknown){
-	localStorage.setItem(key,JSON.stringify(data))
+export function getDataFromStorage(key: string) {
+  const data = localStorage.getItem(key);
+  if (!!data) {
+    return JSON.parse(data);
+  }
+  return false;
+}
+
+export function setDataToStorage(key: string, data: unknown) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+export function getRandomFromArr(arr: any[]) {
+  return arr[Math.floor(Math.random() * (arr.length - 1) + 0.3)];
 }

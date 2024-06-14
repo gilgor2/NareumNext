@@ -2,9 +2,20 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/component/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  safelist: [
+	{ pattern: /rotate-./ },
+	{ pattern: /scale-../ },
+	{ pattern: /scale-.../ },
+	{ pattern: /justify-\w+/ },
+	'justify-end',
+	'justify-between',
+	'w-[33%]',
+	'w-[40%]',
+	'w-[50%]',
+	'w-[60%]',
   ],
 theme: {
 		extend: {
