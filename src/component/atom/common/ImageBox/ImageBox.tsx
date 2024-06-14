@@ -9,21 +9,16 @@ type Prop = {
 };
 export default function ImageBox({ src, alt = 'img', width = '100%', height = '100%' }: Prop) {
   return (
-    <div className={`h-[${height}] w-[${width}] overflow-y-hidden`}>
+    <div className={`h-[${height}] w-[${width}] relative overflow-y-hidden`}>
       <Image
         src={src}
         alt={alt}
-        width={500}
-        height={500}
+        fill
         style={{
-          width: '100%',
-          height: 'auto',
-          objectFit: 'fill',
-          imageRendering: 'crisp-edges',
+          objectFit: 'contain',
         }}
         // loading="lazy"
         decoding="async"
-        // fill
       />
     </div>
   );

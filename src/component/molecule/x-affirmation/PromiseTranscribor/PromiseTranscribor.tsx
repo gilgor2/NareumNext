@@ -41,7 +41,7 @@ export default function PromiseTranscribor({ text, onDone, isFocused = false }: 
         <EnterButton onEnter={onEnter} active className="absolute right-0 text-2" autoFocus />
       )}
 
-      {isTranscribeDone && <CheckSign className="absolute right-0" />}
+      {isTranscribeDone && <CheckSign className="absolute right-0 !text-[4rem]" />}
     </div>
   );
 }

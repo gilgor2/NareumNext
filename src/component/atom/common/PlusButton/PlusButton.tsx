@@ -9,7 +9,7 @@ export default function PlusButton({
 }) {
   return (
     <div
-      className={`${className} material-icons cursor-pointer text-center align-middle text-tg`}
+      className={`material-icons !flex cursor-pointer items-center justify-center text-tg ${className}`}
       role="button"
       onClick={onClick}
     >

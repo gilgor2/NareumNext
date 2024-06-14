@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 
 export default function MouseDodgingSpan({
-  text,
+  text = '',
   className = '',
+  children,
 }: {
-  text: string;
+  text?: string;
   className?: string;
+  children?: ReactElement;
 }) {
   let prevMouseX = 0;
   let prevMouseY = 0;
@@ -40,7 +42,7 @@ export default function MouseDodgingSpan({
       onMouseEnter={handleSpanMouseEvent}
       className={`block w-max text-[60px] transition-all duration-[1000ms] ${className} hover:text-grn`}
     >
-      {text}
+      {text || children}
     </span>
   );
 }
