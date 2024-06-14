@@ -34,7 +34,12 @@
     "linebreak-style":0,
     "import/no-extraneous-dependencies":0,
     "@next/next/no-page-custom-font":0,
-    "max-len":"off"
+    "max-len":"off",
+    "implicit-arrow-linebreak":0,
+    "function-paren-newline":0,
+    "object-curly-newline":0,
+    "operator-linebreak":0,
+    "react/jsx-one-expression-per-line":0
   }
 }
 

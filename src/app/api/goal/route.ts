@@ -1,5 +1,4 @@
 import { updateRecentTranscriptTimeOld } from '@/action/affirmationAction';
-import { revalidatePath } from 'next/cache';
 import { NextRequest } from 'next/server';
 
 export async function POST(request:NextRequest) {

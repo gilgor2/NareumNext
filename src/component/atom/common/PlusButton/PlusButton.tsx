@@ -1,10 +1,15 @@
 import React from 'react';
 
-export default function PlusButton({ className = '', onClick = () => {} }
-:{ onClick?:()=>void, className?:string }) {
+export default function PlusButton({
+  className = '',
+  onClick = () => {},
+}: {
+  onClick?: () => void;
+  className?: string;
+}) {
   return (
     <div
-      className={`${className} material-icons cursor-pointer text-tg text-center align-middle`}
+      className={`material-icons !flex cursor-pointer items-center justify-center text-tg ${className}`}
       role="button"
       onClick={onClick}
     >

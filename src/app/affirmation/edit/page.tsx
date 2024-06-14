@@ -10,19 +10,17 @@ import PromisePresenter from '../../../component/molecule/x-affirmation/PromiseP
 import { usePromiseListEditPageState } from './hooks';
 
 export default function EditPage() {
-  const {
-    promiseList, addPromise, deletePromise,
-   } = usePromiseListEditPageState();
-   const noticeStore = useContext(NoticeContext);
+  const { promiseList, addPromise, deletePromise } = usePromiseListEditPageState();
+  const noticeStore = useContext(NoticeContext);
 
-    useEffect(() => {
-      if (promiseList.length >= MAX_PROMISE_COUNT) {
-        noticeStore.openNoticeForMs(<div>{NOTICE_MESSAGE.ENTER_BEFORE_MAX}</div>, 3000);
-      }
-    }, [promiseList.length]);
+  useEffect(() => {
+    if (promiseList.length >= MAX_PROMISE_COUNT) {
+      noticeStore.openNoticeForMs(<div>{NOTICE_MESSAGE.ENTER_BEFORE_MAX}</div>, 3000);
+    }
+  }, [promiseList.length]);
 
   return (
-    <div className="flex flex-col gap-10 w-[580px]">
+    <div className="flex w-[580px] flex-col gap-10 pr-[10rem]">
       {promiseList.map((promise, i) => (
         <PromisePresenter
           key={`${i}`}
@@ -30,16 +28,12 @@ export default function EditPage() {
           promise={promise.text}
           deletePromise={deletePromise}
         />
-			))}
+      ))}
 
-      {promiseList.length < MAX_PROMISE_COUNT && (
-      <PromiseUploader addPromise={addPromise} />
-			)}
+      {promiseList.length < MAX_PROMISE_COUNT && <PromiseUploader addPromise={addPromise} />}
 
       <Link href="/affirmation/transcribe">
-        <ActionButton className="w-[40px] absolute right-10 top-[calc(50%-40px)]">
-          완료
-        </ActionButton>
+        <ActionButton className="w-[5rem absolute right-10 top-[calc(50%-40px)]">완료</ActionButton>
       </Link>
     </div>
   );

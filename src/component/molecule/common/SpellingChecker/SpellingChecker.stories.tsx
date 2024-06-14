@@ -5,10 +5,10 @@ import { expect, jest } from '@storybook/jest';
 import SpellingChecker from './SpellingChecker';
 
 const meta: Meta<typeof SpellingChecker> = {
-	title: 'component/molecule/common/SpellingChecker/SpellingChecker.stories.tsx',
-	tags: ['autodocs'],
-	component: SpellingChecker,
-	args: { isActive: true },
+  title: 'component/molecule/common/SpellingChecker/SpellingChecker.stories.tsx',
+  tags: ['autodocs'],
+  component: SpellingChecker,
+  args: { isActive: true },
 };
 
 export default meta;
@@ -19,43 +19,43 @@ const writing = '안 녕 핫';
 const longButWrong = '안 녕 안녕안녕하세요';
 
 export const Default: Story = {
-	args: { answer, onSpellCorrect: jest.fn() },
+  args: { answer, onSpellCorrect: jest.fn() },
 };
 
 export const SpelledWrong: Story = {
-	args: { answer, onSpellCorrect: jest.fn() },
-	play: async ({ canvasElement, args }) => {
-		const canvas = within(canvasElement);
+  args: { answer, onSpellCorrect: jest.fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
 
-		await userEvent.type(canvas.getByRole('textbox'), writing);
+    await userEvent.type(canvas.getByRole('textbox'), writing);
 
-		await expect(canvas.getAllByTestId('spelledWrong')[0]).toBeInTheDocument();
-		await expect(args.onSpellCorrect).not.toBeCalledWith(true);
-	},
+    await expect(canvas.getAllByTestId('spelledWrong')[0]).toBeInTheDocument();
+    await expect(args.onSpellCorrect).not.toBeCalledWith(true);
+  },
 };
 
 export const Correct: Story = {
-	args: { answer, onSpellCorrect: jest.fn() },
-	play: async ({ canvasElement, args }) => {
-		const canvas = within(canvasElement);
+  args: { answer, onSpellCorrect: jest.fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
 
-		await userEvent.type(canvas.getByRole('textbox'), answer);
+    await userEvent.type(canvas.getByRole('textbox'), answer);
 
-		await expect(canvas.queryByTestId('spelledWrong')).not.toBeInTheDocument();
-		await expect(args.onSpellCorrect).toBeCalledWith(true);
-	},
+    await expect(canvas.queryByTestId('spelledWrong')).not.toBeInTheDocument();
+    await expect(args.onSpellCorrect).toBeCalledWith(true);
+  },
 };
 
 export const WrongLong: Story = {
-	args: { answer, onSpellCorrect: jest.fn() },
-	play: async ({ canvasElement, args }) => {
-		const canvas = within(canvasElement);
+  args: { answer, onSpellCorrect: jest.fn() },
+  play: async ({ canvasElement, args }) => {
+    const canvas = within(canvasElement);
 
-		await userEvent.type(canvas.getByRole('textbox'), longButWrong);
+    await userEvent.type(canvas.getByRole('textbox'), longButWrong);
 
-		await expect(canvas.getAllByTestId('spelledWrong')[0]).toBeInTheDocument();
-		await expect(args.onSpellCorrect).not.toBeCalledWith(true);
-	},
+    await expect(canvas.getAllByTestId('spelledWrong')[0]).toBeInTheDocument();
+    await expect(args.onSpellCorrect).not.toBeCalledWith(true);
+  },
 };
 
 // const tooLong = 'qwertyuiopqwertyuiopqwertyuiop';

@@ -40,7 +40,7 @@ jobs:
               repo,
               head: '${{ github.ref_name }}',
               base: 'dev',
-               body: "automated pr by github action"
+              body: "automated pr by github action"
             });
             github.rest.issues.addLabels({
               owner,
