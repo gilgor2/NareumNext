@@ -1,13 +1,13 @@
 'use client';
 
 import React, { ReactNode, useContext, useState } from 'react';
-import { Promise } from '@/type/promise';
+import { PromiseType } from '@/type/promise';
 import { updatePromiseAddCnt, updateRecentTranscriptTimeNow } from '@/action/affirmationAction';
 import { NOTICE_MESSAGE } from '@/utility/constants';
 import { NoticeContext } from '@/component/organism/common/NotificationBlockDispenser/hook';
 import PromiseTranscribor from '../PromiseTranscribor/PromiseTranscribor';
 
-export default function TranscribeList({ promiseList }: { promiseList: Promise[] }) {
+export default function TranscribeList({ promiseList }: { promiseList: PromiseType[] }) {
   const [currentTranscriborIndex, setcurrentTranscriborIndex] = useState(0);
   const noticeStore = useContext(NoticeContext);
 

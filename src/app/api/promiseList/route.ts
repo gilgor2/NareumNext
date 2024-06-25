@@ -1,19 +1,20 @@
-import { createPromise, deletePromise, getPromiseList } from '@/action/affirmationAction';
+import { addNewPromise, deletePromise, getPromiseList } from '@/action/affirmationAction';
+import { idFromRequest, promiseFromRequest, responseFromPromiseList } from '@/utility/map/promiseListAPIMapper';
 import { NextRequest } from 'next/server';
 
 export async function GET(request:NextRequest) {
-    const promiseList = await getPromiseList();
-    return Response.json(promiseList, { status: 200 });
+    const { data } = await responseFromPromiseList(await getPromiseList());
+    return Response.json(data, { status: 200 });
 }
 
 export async function POST(request:NextRequest) {
-    const { data } = await request.json();
-     await createPromise(data.promise);
-    return Response.json({ status: 200 });
+    await addNewPromise(await promiseFromRequest(request));
+
+    return Response.json('', { status: 200 });
 }
 
 export async function DELETE(request:NextRequest) {
-    const { id } = await request.json();
-    await deletePromise(id);
-    return Response.json({ status: 200 });
+    await deletePromise(await idFromRequest(request));
+
+    return Response.json('', { status: 200 });
 }
