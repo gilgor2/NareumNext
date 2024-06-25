@@ -1,49 +1,69 @@
-import { DBPromise } from '@/type/promise';
+import { DBPromise, PromiseType } from '@/type/promise';
+import { DBPromiseFromPromise, PromiseFromDBPromise } from '@/utility/map/promiseDBMapper';
 import { createClient } from '@/utility/supabase/server';
+import { throwWhenError, throwWhenWrongFormat } from '@/utility/utility';
 
-export const selectAllPromise = async () => {
+export const selectAllPromise = async ():Promise<PromiseType[]> => {
     const supabase = createClient();
+
     const { data, error } = await supabase
     .from('promise')
-    .select('*')
-    .eq('user_id', (await supabase.auth.getUser()).data?.user?.id);
-    return { data, error };
+    .select('*');
+
+    try {
+      throwWhenError(error?.message);
+      throwWhenWrongFormat<DBPromise[]>(data as DBPromise[], (d) => !!(!d || (d[0] && d[0].text && d[0].transcribe_cnt)));
+
+      return data?.map(PromiseFromDBPromise) || [];
+    } catch (e) {
+      // catch
+    }
+    return [];
 };
 
-export const addPromise = async (promise:DBPromise) => {
+export const addPromise = async (promise:PromiseType) => {
   const supabase = createClient();
-  const { user } = (await supabase.auth.getUser()).data;
-    const validObj = {
-      ...promise,
-      user_id: user?.id,
-    };
+
   const { error } = await supabase
   .from('promise')
-  .insert(validObj);
-  return error;
+  .insert(DBPromiseFromPromise(promise));
+
+  try {
+    throwWhenError(error?.message);
+  } catch (e) {
+    // catch
+  }
 };
 
 export const deletePromise = async (id:number) => {
     const supabase = createClient();
+
     const { error } = await supabase
     .from('promise')
     .delete()
     .eq('id', id);
-  return error;
+
+    try {
+      throwWhenError(error?.message);
+    } catch (e) {
+      // catch
+    }
 };
 
 export const addAllCnt = async () => {
     const supabase = createClient();
-    const { data, error } = await supabase
-  .from('promise')
-  .select('*');
-// Update each row individually
-data?.forEach(async (row) => {
-    await supabase
-    .from('promise')
-    .update({ transcribe_cnt: row.transcribe_cnt + 1 })
-    .eq('id', row.id);
-});
 
-  return error;
+    const promiseList = await selectAllPromise();
+
+    try {
+    promiseList.forEach(async (row) => {
+      const { error } = await supabase
+      .from('promise')
+      .update({ transcribe_cnt: row.transcribeCnt + 1 })
+      .eq('id', row.id);
+      throwWhenError(error?.message);
+    });
+  } catch (e) {
+    // catch
+  }
 };

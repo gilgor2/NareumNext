@@ -1,12 +1,12 @@
-import { Promise } from '@/type/promise';
+import { PromiseType } from '@/type/promise';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export const usePromiseListEditPageState = () => {
-  const [promiseList, setpromiseList] = useState<Promise[]>([]);
+  const [promiseList, setpromiseList] = useState<PromiseType[]>([]);
 
   const addPromise = async (text: string) => {
-    const newPromise: Promise = {
+    const newPromise: PromiseType = {
       text,
       transcribeCnt: 0,
       date: new Date(),
@@ -19,7 +19,7 @@ export const usePromiseListEditPageState = () => {
   };
 
   const deletePromise = async (id: string) => {
-    setpromiseList((arr: Promise[]) => {
+    setpromiseList((arr: PromiseType[]) => {
       const tmpArr = [...arr];
       tmpArr.splice(
         tmpArr.findIndex((p) => p.id === id),
