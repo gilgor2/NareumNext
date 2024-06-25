@@ -12,7 +12,7 @@ export default function PaintingDiagonal({ promiseList }: { promiseList: Promise
         {repeatedPromiseList.map((promiseObj, i) => (
           <RowContainerAutoScroll key={generateUniqueId()} isFastOnHover>
             {promiseObj.text
-              .repeat(100)
+              .repeat(80)
               .split('')
               .map((char: string, j: number) => (
                 <MouseDodgingSpan text={char} key={j} className="text-10 pb-3 font-semibold" />
