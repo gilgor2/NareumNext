@@ -2,7 +2,7 @@ import { CategoryObj } from '@/type/board';
 import { FLEX_DIRECTION_OPTION, GROUP_SIZE_PER_CATEGORY_LENGTH } from '@/utility/constants';
 import { getRandomFromArr } from '@/utility/utility';
 import React from 'react';
-import PictureGroup from '../PictureGroup/PictureGroup';
+import BoardByCategory from '../BoardByCategory/BoardByCategory';
 
 type Props = {
   boardData: CategoryObj[];
@@ -30,7 +30,7 @@ export default function VisionBoard({ boardData }: Props) {
     <div className={`flex h-[100%] w-[100%] ${flexDirection} flex-wrap pr-[10rem] `}>
       {boardData.map((categoryObj, i) => (
         <div key={categoryObj.name} className={`${widthArr[i]} ${heightPerGroup}`}>
-          <PictureGroup imageSrcArr={categoryObj.srcArr} />
+          <BoardByCategory imageSrcArr={categoryObj.srcArr} />
         </div>
       ))}
     </div>

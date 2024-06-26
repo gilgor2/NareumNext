@@ -9,7 +9,7 @@ type Props = {
   onClickPlusButton: () => void;
 };
 
-export default function PictureListContainer({ title, srcArray, onClickPlusButton }: Props) {
+export default function CategorizedPictureList({ title, srcArray, onClickPlusButton }: Props) {
   return (
     <div className="border-black-100 flex h-[45%] w-[40%] flex-col justify-between rounded-m border-2 p-10">
       <div className="py-1rem flex items-center justify-between">

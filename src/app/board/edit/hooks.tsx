@@ -1,91 +1,71 @@
 import {
   deleteImage,
   getBoardData,
-  insertBoardImage,
-  deleteCategory,
+  deleteCategory as deleteCategoryAction,
   addFileToBoardStorage,
+  addNewBoardImage,
+  editCategory as editCategoryAction,
 } from '@/action/boardAction';
 import { CategoryObj } from '@/type/board';
 import { MAX_IMAGE_PER_CATEGORY } from '@/utility/constants';
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 export const useBoardEditPageState = () => {
   const [boardData, setboardData] = useState<CategoryObj[]>([]);
-  const [isPopup, setisPopup] = useState(false);
+  const [isModalOpen, setisModalOpen] = useState(false);
   const [targetCategory, settargetCategory] = useState('');
 
+  const initializeBoardData = async () => {
+    setboardData(await getBoardData());
+  };
   useEffect(() => {
-    const setBoardDataState = async () => {
-      const dataFromDB = await getBoardData();
-      setboardData(dataFromDB);
-    };
-    setBoardDataState();
+    initializeBoardData();
   }, []);
 
-  const openPopup = (category: string) => {
-    setisPopup(true);
+  const openModal = (category: string) => {
+    setisModalOpen(true);
     settargetCategory(category);
   };
-  const closePopup = () => {
-    setisPopup(false);
+  const closeModal = () => {
+    setisModalOpen(false);
     settargetCategory('');
   };
 
-  const insertImageFromDB = async (src: string) => {
-    await insertBoardImage(src, targetCategory);
-  };
-
-  const deleteImageFromDB = async (src: string) => {
-    await deleteImage(src);
-  };
-  const deleteCategoryFromDB = async (category: string) => {
-    await deleteCategory(category);
-  };
-  const editCategoryFromDB = async (originalCategory: string, newCategory: string) => {
-    await axios.put(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board/category`, {
-      data: { originalCategory, newCategory },
-    });
-  };
-  const insertFileToStorage = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const response = await addFileToBoardStorage(file);
-    if (response === -1 || response === null) {
-      return -1;
-    }
-    const src = response.path;
-    return `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_ENDPOINT}/${src}`;
-  };
   const addImageTo = (newSrc: string) => {
-    const categoryIndex = boardData.findIndex((obj) => obj.name === targetCategory);
-    if (categoryIndex > -1) {
-      const { srcArr } = boardData[categoryIndex];
+    const targetCategoryI = boardData.findIndex((obj) => obj.name === targetCategory);
+    if (targetCategoryI > -1) {
+      const { srcArr } = boardData[targetCategoryI];
       if (srcArr.length < MAX_IMAGE_PER_CATEGORY) {
         setboardData((state) => {
           const tmp = structuredClone(state);
-          tmp[categoryIndex].srcArr = [...srcArr, newSrc];
+          tmp[targetCategoryI].srcArr = [...srcArr, newSrc];
           return tmp;
         });
       }
-      insertImageFromDB(newSrc);
+
+      addNewBoardImage(newSrc, targetCategory); // serverAction
     }
   };
-  const addFileTo = async (file: string | File) => {
-    if (typeof file !== 'string') {
-      const src = await insertFileToStorage(file);
-      return src;
+
+  const addFileToStorage = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const src = await addFileToBoardStorage(formData);
+
+    if (src) {
+      return `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_ENDPOINT}/${src}`;
     }
-    return '-1';
+    return null;
   };
   const dropImageTo = async (file: string | File) => {
-    const src = await addFileTo(file);
-    if (src === -1) {
-      return -1;
+    if (typeof file !== 'string') {
+      const src = await addFileToStorage(file);
+      if (src) {
+        addImageTo(src);
+      }
     }
-    addImageTo(src);
-    return 0;
   };
+
   const deleteImageFrom = (src: string) => {
     setboardData((state) => {
       const categoryIndex = state.findIndex((obj) => obj.name === targetCategory);
@@ -103,20 +83,22 @@ export const useBoardEditPageState = () => {
 
       return state;
     });
-    deleteImageFromDB(src);
+    deleteImage(src); // serverAction
   };
+
   const editCategory = (text: string) => {
     setboardData((state) => {
       const tmp = structuredClone(state);
-      const originalCategory = tmp.find((obj) => obj.name === targetCategory);
-      if (originalCategory) {
-        originalCategory.name = text;
+      const originalCategoryObj = tmp.find((obj) => obj.name === targetCategory);
+      if (originalCategoryObj) {
+        originalCategoryObj.name = text;
       }
       return tmp;
     });
+
     settargetCategory(text);
     if (text) {
-      editCategoryFromDB(targetCategory, text);
+      editCategoryAction(targetCategory, text);
     }
   };
 
@@ -131,27 +113,26 @@ export const useBoardEditPageState = () => {
       }
       return state;
     });
-    setisPopup(false);
-    settargetCategory('');
-    deleteCategoryFromDB(category);
-  };
-  const addNewCategory = () => {
-    setboardData((state) => {
-      const tmp = [...state];
-      const newObj: CategoryObj = { name: 'new!', srcArr: [] };
-      tmp.push(newObj);
 
-      return tmp;
-    });
-    settargetCategory('new!');
-    setisPopup(true);
+    setisModalOpen(false);
+    settargetCategory('');
+
+    deleteCategoryAction(category);
   };
+
+  const addNewCategory = () => {
+    setboardData((state) => [...state, { name: 'new!', srcArr: [] }]);
+    settargetCategory('new!');
+    setisModalOpen(true);
+  };
+
   return {
     boardData,
     targetCategory,
-    isPopup,
-    openPopup,
-    closePopup,
+
+    isModalOpen,
+    openModal,
+    closeModal,
 
     addImageTo,
     dropImageTo,
