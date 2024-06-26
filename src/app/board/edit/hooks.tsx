@@ -1,3 +1,10 @@
+import {
+  deleteImage,
+  getBoardData,
+  insertBoardImage,
+  deleteCategory,
+  addFileToBoardStorage,
+} from '@/action/boardAction';
 import { CategoryObj } from '@/type/board';
 import { MAX_IMAGE_PER_CATEGORY } from '@/utility/constants';
 import axios from 'axios';
@@ -9,10 +16,6 @@ export const useBoardEditPageState = () => {
   const [targetCategory, settargetCategory] = useState('');
 
   useEffect(() => {
-    const getBoardData = async () => {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board`);
-      return response.data || [];
-    };
     const setBoardDataState = async () => {
       const dataFromDB = await getBoardData();
       setboardData(dataFromDB);
@@ -30,21 +33,14 @@ export const useBoardEditPageState = () => {
   };
 
   const insertImageFromDB = async (src: string) => {
-    await axios.post(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board`, {
-      data: {
-        img_src: src,
-        tag: targetCategory,
-      },
-    });
+    await insertBoardImage(src, targetCategory);
   };
 
   const deleteImageFromDB = async (src: string) => {
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board`, { data: { src } });
+    await deleteImage(src);
   };
   const deleteCategoryFromDB = async (category: string) => {
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board/category`, {
-      data: { category },
-    });
+    await deleteCategory(category);
   };
   const editCategoryFromDB = async (originalCategory: string, newCategory: string) => {
     await axios.put(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board/category`, {
@@ -54,11 +50,11 @@ export const useBoardEditPageState = () => {
   const insertFileToStorage = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_ROUTER_URL}/board/storage`,
-      formData,
-    );
-    const src = response.data.response?.data?.fullPath;
+    const response = await addFileToBoardStorage(file);
+    if (response === -1 || response === null) {
+      return -1;
+    }
+    const src = response.path;
     return `${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_ENDPOINT}/${src}`;
   };
   const addImageTo = (newSrc: string) => {
@@ -84,7 +80,7 @@ export const useBoardEditPageState = () => {
   };
   const dropImageTo = async (file: string | File) => {
     const src = await addFileTo(file);
-    if (src === '-1') {
+    if (src === -1) {
       return -1;
     }
     addImageTo(src);

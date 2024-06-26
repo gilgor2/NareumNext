@@ -1,7 +1,8 @@
 import {
  deleteAllTag, deleteImage, editAllTag, insertImage, selectAllImage,
 } from '@/db/boardDB';
-import { BoardImage, CategoryObj, DBBoardImage } from '@/type/board';
+import { BoardImageType, CategoryObj, DBBoardImage } from '@/type/board';
+import { BoardImage } from '@/domain/boardImage';
 
 export class Board {
     picList:BoardImage[] = [];
@@ -14,7 +15,7 @@ export class Board {
         return this;
     }
 
-    async addImage(board:BoardImage) {
+    async addImage(board:BoardImageType) {
         const dbBoard = Board.boardToDBBoard(board);
         await insertImage(dbBoard);
         return this;
@@ -53,7 +54,7 @@ export class Board {
         return boardData;
      }
 
-    static boardToDBBoard(pic:BoardImage) {
+    static boardToDBBoard(pic:BoardImageType) {
         const dbBoard:DBBoardImage = {
             ...pic,
             user_id: 'me',

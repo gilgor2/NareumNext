@@ -9,7 +9,7 @@ export async function GET(request:NextRequest) {
 export async function POST(request:NextRequest) {
     const { data } = await request.json();
 
-     const response = await insertBoardImage(data);
+     const response = await insertBoardImage(data.src, data.tag);
     return Response.json({ status: 200 });
 }
 

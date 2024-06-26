@@ -15,7 +15,7 @@ export async function promiseFromRequest(req:NextRequest) {
     } catch (e) {
         // catch
     }
-    return new PromiseDomain(text);
+    return text;
 }
 export async function idFromRequest(req:NextRequest) {
     let id = '';

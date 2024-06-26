@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import PromiseList from '@/domain/promiseList';
 import Goal from '@/domain/goal';
-import { PromiseType } from '@/type/promise';
+import Promise from '@/domain/promise';
 
 export async function getPromiseList() {
   const promiseList = new PromiseList();
@@ -11,11 +11,11 @@ export async function getPromiseList() {
   return promiseList.getPromiseList();
 }
 
-export async function addNewPromise(promise: PromiseType) {
-  if (promise.text) {
+export async function addNewPromise(promise: string) {
+  if (promise) {
     const promiseList = new PromiseList();
 
-    await promiseList.addPromise(promise);
+    await promiseList.addPromise(new Promise(promise));
 
     revalidatePath('/affirmation', 'layout');
   }
@@ -26,7 +26,7 @@ export async function deletePromise(id: string) {
 
   await promiseList.deletePromise(id);
 
-  revalidatePath('/affirmation');
+  revalidatePath('/affirmation', 'layout');
 }
 
 export async function updatePromiseAddCnt() {
