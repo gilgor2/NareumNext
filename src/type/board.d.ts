@@ -14,3 +14,25 @@ export type CategoryObj = {
     name:string;
     srcArr:string[];
 };
+
+export type BoardDataGetReponseType = {
+    data:CategoryObj[]
+};
+
+export type BoardPostRequestType = {
+    data:BoardImage
+};
+
+export type BoardDeleteRequestType = {
+    src:string
+};
+
+export type CategoryPutRequestType = {
+    originalCategory:string
+    newCategory:string
+
+};
+
+export type CategoryDeleteRequestType = {
+    category:string
+};

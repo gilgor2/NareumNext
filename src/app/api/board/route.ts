@@ -1,20 +1,20 @@
-import { deleteImage, getBoardData, insertBoardImage } from '@/action/boardAction';
+import { addNewBoardImage, deleteImage, getBoardData } from '@/action/boardAction';
+import { boardImageFromPostRequest, responseFromBoardData, srcFromDeleteRequest } from '@/utility/map/boardAPIMapper';
 import { NextRequest } from 'next/server';
 
 export async function GET(request:NextRequest) {
-    const boardData = await getBoardData();
-    return Response.json(boardData, { status: 200 });
+    const { data } = await responseFromBoardData(await getBoardData());
+    return Response.json(data, { status: 200 });
 }
 
 export async function POST(request:NextRequest) {
-    const { data } = await request.json();
+    await addNewBoardImage(await boardImageFromPostRequest(request));
 
-     const response = await insertBoardImage(data.src, data.tag);
     return Response.json({ status: 200 });
 }
 
 export async function DELETE(request:NextRequest) {
-    const { src } = await request.json();
-    await deleteImage(src);
+    await deleteImage(await srcFromDeleteRequest(request));
+
     return Response.json({ status: 200 });
 }

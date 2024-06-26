@@ -1,5 +1,5 @@
 import {
- deleteAllTag, deleteImage, editAllTag, insertImage, selectAllImage,
+ deleteAllTag, deleteImage, editAllTag, addImage, selectAllImage,
 } from '@/db/boardDB';
 import { BoardImageType, CategoryObj, DBBoardImage } from '@/type/board';
 import { BoardImage } from '@/domain/boardImage';
@@ -7,39 +7,55 @@ import { BoardImage } from '@/domain/boardImage';
 export class Board {
     picList:BoardImage[] = [];
 
-    async updateBoardFromDB() {
-        const { data } = await selectAllImage();
-        if (data) {
-            this.picList = data;
-        }
+    async initBoardFromDB() {
+        this.picList = await selectAllImage();
+
         return this;
     }
 
-    async addImage(board:BoardImageType) {
-        const dbBoard = Board.boardToDBBoard(board);
-        await insertImage(dbBoard);
+    async addImage(board:BoardImage) {
+        await addImage(board);
+
+        this.picList.push(board);
+
         return this;
     }
 
     async deleteImage(src:string) {
-        await deleteImage(src);
+        await this.initBoardFromDB();
+
+        const isPromiseInList = this.picList.findIndex((pic) => pic.img_src === src) > -1;
+        if (isPromiseInList) {
+            await deleteImage(src);
+
+            this.picList = this.picList.filter((pic) => pic.img_src !== src);
+        } else {
+         console.log("no pic in list. can't delete");
+        }
+
         return this;
     }
 
     async deleteCategory(category:string) {
         await deleteAllTag(category);
+
         return this;
     }
 
     async editCategory(original:string, newCategory:string) {
-        await editAllTag(original, newCategory);
+        if (newCategory) {
+            await editAllTag(original, newCategory);
+        }
+
         return this;
     }
 
      async getBoardData() {
-        await this.updateBoardFromDB();
+        await this.initBoardFromDB();
+
         const boardData:CategoryObj[] = [];
         const tagIndexObj:{ [key:string]:number } = {};
+
         this.picList.forEach((picture) => {
             if (tagIndexObj[picture.tag] || tagIndexObj[picture.tag] === 0) {
                 boardData[tagIndexObj[picture.tag]].srcArr.push(picture.img_src);
@@ -53,23 +69,4 @@ export class Board {
         });
         return boardData;
      }
-
-    static boardToDBBoard(pic:BoardImageType) {
-        const dbBoard:DBBoardImage = {
-            ...pic,
-            user_id: 'me',
-
-        };
-        return dbBoard;
-    }
-
-    static DBBoardToBoard(pic:DBBoardImage) {
-        const board:BoardImage = {
-            img_src: pic.img_src,
-            tag: pic.tag,
-            id: pic.id,
-
-        };
-        return board;
-    }
 }
