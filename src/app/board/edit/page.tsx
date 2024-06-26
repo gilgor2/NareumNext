@@ -28,7 +28,7 @@ export default function EditPage() {
 
   const isNewCategoryAddable = Object.keys(boardData).length < MAX_BOARD_CATEGORY_COUNT;
   return (
-    <div className="relative pr-[10rem]">
+    <div className="relative h-[100%] pr-[10rem]">
       {!isModalOpen && (
         <div className="flex h-[100%] flex-wrap justify-between px-[10%] py-[5%]">
           {boardData.map((categoryObj, i) => (

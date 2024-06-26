@@ -5,7 +5,7 @@ export class BoardImage implements BoardImageType {
 
     tag:string;
 
-    id:string;
+    id?:string;
 
     constructor(img_src:string, tag:string, id = 'tmp') {
         this.img_src = img_src;

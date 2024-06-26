@@ -5,7 +5,7 @@ type Props = {
   category: string;
   setcategory: (str: string) => void;
 };
-export default function CategoryNameinput({ category, setcategory }: Props) {
+export default function CategoryNameInput({ category, setcategory }: Props) {
   return (
     <div className="py-1rem flex items-center justify-between">
       <h1 className="border-b-2 border-b-tg pb-8 text-3xl">
