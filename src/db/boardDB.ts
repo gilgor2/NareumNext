@@ -1,9 +1,9 @@
-import { BoardImage, DBBoardImage } from '@/type/board';
+import { BoardImageType } from '@/type/board';
 import { DBBoardImageFromBoardImage, boardImageFromDBBoardImage } from '@/utility/map/boardDBMapper';
 import { createClient } from '@/utility/supabase/server';
 import { throwWhenError, throwWhenWrongFormat } from '@/utility/utility';
 
-export const selectAllImage = async ():Promise<BoardImage[]> => {
+export const selectAllImage = async ():Promise<BoardImageType[]> => {
     const supabase = createClient();
 
     const { data, error } = await supabase
@@ -11,7 +11,7 @@ export const selectAllImage = async ():Promise<BoardImage[]> => {
     .select('*');
     try {
       throwWhenError(error?.message);
-      throwWhenWrongFormat<BoardImage[]>(data as BoardImage[], (d) => !!(!d || (d[0] && d[0].img_src && d[0].tag)));
+      throwWhenWrongFormat<BoardImageType[]>(data as BoardImageType[], (d) => !!(!d || (d[0] && d[0].img_src && d[0].tag)));
 
       return data?.map(boardImageFromDBBoardImage) || [];
     } catch (e) {
@@ -20,7 +20,7 @@ export const selectAllImage = async ():Promise<BoardImage[]> => {
     return [];
 };
 
-export const addImage = async (image:BoardImage) => {
+export const addImage = async (image:BoardImageType) => {
     const supabase = createClient();
 
     const { error } = await supabase

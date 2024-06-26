@@ -1,7 +1,6 @@
 import { addNewBoardImage, deleteImage, getBoardData } from '@/action/boardAction';
 import { boardImageFromPostRequest, responseFromBoardData, srcFromDeleteRequest } from '@/utility/map/boardAPIMapper';
 import { NextRequest } from 'next/server';
-import { boardImageFromDBBoardImage } from '@/utility/map/boardDBMapper';
 
 export async function GET(request:NextRequest) {
     const { data } = await responseFromBoardData(await getBoardData());
