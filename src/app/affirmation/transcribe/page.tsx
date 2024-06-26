@@ -11,33 +11,33 @@ import {
 import TranscriberList from '../../../component/molecule/x-affirmation/TranscriberList/TranscriberList';
 import ActionButton from '../../../component/atom/common/ActionButton/ActionButton';
 
-const moveToEditPageIf = (condition: boolean) => {
-  if (condition) {
-    // redirect('/affirmation/edit');
-  }
-};
-const moveToExhibitPageIfNeeded = async () => {
-  const isTranscribedNeeded = await checkIsRecentTranscriptTimePassed();
-  if (!isTranscribedNeeded) {
-    // revalidatePath('/affirmation/exhibit', 'page');
-    // redirect('/affirmation/exhibit');
-  }
-};
 const onDoneTranscribe = async () => {
+  'use server';
+
   await updatePromiseAddCnt();
   await updateRecentTranscriptTimeNow();
+
+  // noticeBlock은 transcriberList(client component)에서 관리
+  redirect('/affirmation/exhibit');
 };
 
 export default async function TranscribePage() {
   const promiseList = await getPromiseList();
 
-  moveToEditPageIf(promiseList.length === 0);
-  moveToExhibitPageIfNeeded();
+  // redirect on conditions
+  if (promiseList.length === 0) {
+    redirect('/affirmation/edit');
+  }
+
+  const isTranscribeNeeded = await checkIsRecentTranscriptTimePassed();
+  if (!isTranscribeNeeded) {
+    redirect('/affirmation/exhibit');
+  }
 
   return (
     <>
       <div className="relative pr-[10rem]">
-        <TranscriberList promiseList={promiseList} />
+        <TranscriberList promiseList={promiseList} onDone={onDoneTranscribe} />
       </div>
       <Link href="/affirmation/edit">
         <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[5rem]">

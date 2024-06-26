@@ -38,7 +38,7 @@ export async function updatePromiseAddCnt() {
 export async function updateRecentTranscriptTimeNow() {
   const goal = new Goal();
 
-  goal.setrecentTranscriptTimeNow();
+  await goal.setrecentTranscriptTimeNow();
 
   revalidatePath('/affirmation', 'layout');
 }

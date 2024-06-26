@@ -1,20 +1,19 @@
 import { checkIsRecentTranscriptTimePassed, getPromiseList } from '@/action/affirmationAction';
 import ActionButton from '@/component/atom/common/ActionButton/ActionButton';
 import PaintingDiagonal from '@/component/organism/x-affirmation/PaintingDiagonal/PaintingDiagonal';
-import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export default async function ExhibitSection() {
   const promiseList = await getPromiseList();
-  const isTranscribedNeeded = await checkIsRecentTranscriptTimePassed();
 
   // redirect
   if (promiseList.length === 0) {
     redirect('/affirmation/edit');
   }
+
+  const isTranscribedNeeded = await checkIsRecentTranscriptTimePassed();
   if (isTranscribedNeeded) {
-    revalidatePath('/affirmation/transcribe', 'page');
     redirect('/affirmation/transcribe');
   }
 
