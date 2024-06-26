@@ -2,16 +2,16 @@
 
 import React, { useContext, useState } from 'react';
 import { PromiseType } from '@/type/promise';
-import { updatePromiseAddCnt, updateRecentTranscriptTimeNow } from '@/action/affirmationAction';
 import { NOTICE_MESSAGE } from '@/utility/constants';
 import { NoticeContext } from '@/component/organism/common/NotificationBlockDispenser/hook';
 import PromiseTranscribor from '../PromiseTranscribor/PromiseTranscribor';
 
 type Props = {
   promiseList: PromiseType[];
+  onDone: () => void;
 };
 
-export default function TranscriberList({ promiseList }: Props) {
+export default function TranscriberList({ promiseList, onDone }: Props) {
   const noticeStore = useContext(NoticeContext);
   const [currentTranscriborIndex, setcurrentTranscriborIndex] = useState(0);
 
@@ -21,8 +21,7 @@ export default function TranscriberList({ promiseList }: Props) {
 
   const onLastTranscribeDone = async () => {
     noticeStore.openNoticeForMs(<div>{NOTICE_MESSAGE.WELL_DONE}</div>, 2000);
-    await updatePromiseAddCnt();
-    await updateRecentTranscriptTimeNow();
+    await onDone();
   };
 
   return (

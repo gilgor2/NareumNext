@@ -21,8 +21,8 @@ export function getRandomFromArr(arr: any[]) {
   return arr[Math.floor(Math.random() * (arr.length - 1) + 0.3)];
 }
 
-export function throwWhenWrongFormat<T>(data: T, dataCheckFn = (d: T) => false) {
-  if (dataCheckFn(data)) {
+export function throwWhenWrongFormat<T>(data: T, dataCheckFn = (d: T) => true) {
+  if (!dataCheckFn(data)) {
     throw new Error('Wrong format : ');
   }
 }

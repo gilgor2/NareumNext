@@ -6,20 +6,20 @@ import { throwWhenError, throwWhenWrongFormat } from '@/utility/utility';
 export const selectTranscribeTime = async ():Promise<string | null> => {
   const supabase = createClient();
 
-  const { data, error } = await supabase
-  .from('goals')
-  .select('recent_transcript_time');
-
   try {
+    const { data, error } = await supabase
+    .from('goals')
+    .select('recent_transcript_time');
+
     throwWhenError(error?.message);
     throwWhenWrongFormat<DBGoal[]>(data as DBGoal[], (d) => !!((d[0] && d[0].recent_transcript_time) || !d[0]));
 
-    const selectedGolList:DBGoal[] = data as DBGoal[];
-    if (selectedGolList[0]) {
-      return transcribeTimeFromDBGoal(selectedGolList[0]);
+    const selectedGoalList:DBGoal[] = data as DBGoal[];
+    if (selectedGoalList[0]) {
+      return transcribeTimeFromDBGoal(selectedGoalList[0]);
     }
   } catch (e) {
-    // catch
+    console.log(e);
   }
 
   return null;
@@ -29,18 +29,20 @@ export const createGoal = async ():Promise<Date> => {
     const supabase = createClient();
 
     const now = new Date();
-    const { error } = await supabase
-    .from('goals')
-    .insert([
-      DBGoalFromTranscribeTime(now),
-    ]);
 
     try {
-      throwWhenError(error?.message);
-    } catch (e) {
-      // catch
-    }
+      const { error } = await supabase
+      .from('goals')
+      .insert([
+        DBGoalFromTranscribeTime(now),
+      ]);
 
+      throwWhenError(error?.message);
+
+      return now;
+    } catch (e) {
+      console.log(e);
+    }
     return now;
 };
 
@@ -58,6 +60,6 @@ export const updateTranscriptTime = async (date:Date) => {
   try {
     throwWhenError(error?.message);
   } catch (e) {
-    // catch
+    console.log(e);
   }
 };

@@ -8,7 +8,6 @@ class Goal implements GoalDomainType {
 
     async initRecentTranscriptTimeFromDB() {
        const recentTranscriptTime = await selectTranscribeTime();
-
        if (recentTranscriptTime) {
         this.recentTranscriptTime = new Date(recentTranscriptTime);
        } else {
@@ -34,7 +33,7 @@ class Goal implements GoalDomainType {
 
         const recent = this.recentTranscriptTime.getTime();
         const now = new Date().getTime();
-
+        
         return now > (recent || 0) + RE_TRANSCRIBE_TIME_MS;
     }
 }
