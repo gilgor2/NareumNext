@@ -1,7 +1,8 @@
 import {
  deleteAllTag, deleteImage, editAllTag, addImage, selectAllImage,
 } from '@/db/boardDB';
-import { BoardImage, CategoryObj, DBBoardImage } from '@/type/board';
+import { BoardImageType, CategoryObj, DBBoardImage } from '@/type/board';
+import { BoardImage } from '@/domain/boardImage';
 
 export class Board {
     picList:BoardImage[] = [];

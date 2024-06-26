@@ -1,4 +1,4 @@
-export type BoardImage = {
+export type BoardImageType = {
     img_src:string;
     tag:string;
     id:string;

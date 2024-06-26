@@ -6,8 +6,6 @@ name: dev-to-master
 on:
   push:
     branches: ['dev']
-  pull_request:
-    branches: ['dev']
 
 permissions:
   actions: read

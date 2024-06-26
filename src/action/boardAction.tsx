@@ -1,8 +1,9 @@
 'use server';
 
 import { Board } from '@/domain/board';
-import { BoardImage } from '@/type/board';
+import { BoardImage } from '@/domain/boardImage';
 import { revalidatePath } from 'next/cache';
+import { addImageFileToStorage } from '@/db/boardDB';
 
 export async function getBoardData() {
   const board = new Board();

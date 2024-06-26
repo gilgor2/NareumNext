@@ -5,25 +5,39 @@ import { revalidatePath } from 'next/cache';
 import {
   checkIsRecentTranscriptTimePassed,
   getPromiseList,
+  updatePromiseAddCnt,
+  updateRecentTranscriptTimeNow,
 } from '../../../action/affirmationAction';
-import TranscribeList from '../../../component/molecule/x-affirmation/TranscribeList/TranscribeList';
+import TranscriberList from '../../../component/molecule/x-affirmation/TranscriberList/TranscriberList';
 import ActionButton from '../../../component/atom/common/ActionButton/ActionButton';
+
+const moveToEditPageIf = (condition: boolean) => {
+  if (condition) {
+    // redirect('/affirmation/edit');
+  }
+};
+const moveToExhibitPageIfNeeded = async () => {
+  const isTranscribedNeeded = await checkIsRecentTranscriptTimePassed();
+  if (!isTranscribedNeeded) {
+    // revalidatePath('/affirmation/exhibit', 'page');
+    // redirect('/affirmation/exhibit');
+  }
+};
+const onDoneTranscribe = async () => {
+  await updatePromiseAddCnt();
+  await updateRecentTranscriptTimeNow();
+};
 
 export default async function TranscribePage() {
   const promiseList = await getPromiseList();
-  const isTranscribedNeeded = await checkIsRecentTranscriptTimePassed();
-  if (promiseList.length === 0) {
-    redirect('/affirmation/edit');
-  }
-  if (isTranscribedNeeded === false) {
-    revalidatePath('/affirmation/exhibit', 'page');
-    redirect('/affirmation/exhibit');
-  }
+
+  moveToEditPageIf(promiseList.length === 0);
+  moveToExhibitPageIfNeeded();
 
   return (
     <>
       <div className="relative pr-[10rem]">
-        <TranscribeList promiseList={promiseList} />
+        <TranscriberList promiseList={promiseList} />
       </div>
       <Link href="/affirmation/edit">
         <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[5rem]">
