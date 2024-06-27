@@ -1,19 +1,16 @@
-import { BoardImage, DBBoardImage } from '@/type/board';
+import { BoardImageType, DBBoardImage } from '@/type/board';
 
-export function DBBoardImageFromBoardImage(pic:BoardImage) {
+export function DBBoardImageFromBoardImage(pic:BoardImageType) {
     const dbBoard:DBBoardImage = {
-        ...pic,
-        user_id: 'me',
-
+        img_src: pic.img_src,
+        tag: pic.tag,
     };
     return dbBoard;
 }
 
 export function boardImageFromDBBoardImage(pic:DBBoardImage) {
-    const board:BoardImage = {
-        img_src: pic.img_src,
-        tag: pic.tag,
-        id: pic.id,
+    const board:BoardImageType = {
+        ...pic,
 
     };
     return board;

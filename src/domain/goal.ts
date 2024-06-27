@@ -33,7 +33,7 @@ class Goal implements GoalDomainType {
 
         const recent = this.recentTranscriptTime.getTime();
         const now = new Date().getTime();
-        
+
         return now > (recent || 0) + RE_TRANSCRIBE_TIME_MS;
     }
 }

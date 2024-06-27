@@ -1,4 +1,4 @@
-import { BoardDataGetReponseType, BoardDeleteRequestType, BoardImage, BoardPostRequestType, CategoryDeleteRequestType, CategoryObj, CategoryPutRequestType } from '@/type/board';
+import { BoardDataGetReponseType, BoardDeleteRequestType, BoardImageType, BoardPostRequestType, CategoryDeleteRequestType, CategoryObj, CategoryPutRequestType } from '@/type/board';
 import { NextRequest } from 'next/server';
 import { throwWhenWrongFormat } from '../utility';
 
@@ -6,7 +6,7 @@ export async function responseFromBoardData(boardData:CategoryObj[]):Promise<Boa
     return { data: boardData };
 }
 
-export async function boardImageFromPostRequest(req:NextRequest):Promise<BoardImage> {
+export async function boardImageFromPostRequest(req:NextRequest):Promise<BoardImageType> {
     try {
         const requestData:BoardPostRequestType = await req.json();
 

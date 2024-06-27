@@ -1,7 +1,7 @@
 import {
  deleteAllTag, deleteImage, editAllTag, addImage, selectAllImage,
 } from '@/db/boardDB';
-import { BoardImageType, CategoryObj, DBBoardImage } from '@/type/board';
+import { CategoryObj } from '@/type/board';
 import { BoardImage } from '@/domain/boardImage';
 
 export class Board {

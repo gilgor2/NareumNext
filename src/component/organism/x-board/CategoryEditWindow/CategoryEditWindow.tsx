@@ -2,9 +2,8 @@
 
 import ImageBox from '@/component/atom/common/ImageBox/ImageBox';
 import React from 'react';
-import Input from '@/component/atom/common/Input/Input';
 import DeleteBox from '@/component/molecule/common/DeleteBox/DeleteBox';
-import CategoryNameinput from '@/component/molecule/x-board/CategoryNameInput/CategoryNameinput';
+import CategoryNameInput from '@/component/molecule/x-board/CategoryNameInput/CategoryNameInput';
 
 type Props = {
   category: string;
@@ -23,7 +22,7 @@ export default function CategoryEditWindow({
   return (
     <div className="flex h-[100%] items-center px-[10%]">
       <div className="border-black-100 flex h-[72%] min-h-[30rem] w-[55%] flex-col justify-between rounded-m border-2 p-10">
-        <CategoryNameinput category={category} setcategory={editCategory} />
+        <CategoryNameInput category={category} setcategory={editCategory} />
         <div className="h-[3rem]" />
 
         <div className="grid h-[90%] grid-cols-3 grid-rows-2 gap-10 rounded-sm bg-bgg p-5">

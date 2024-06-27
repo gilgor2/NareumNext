@@ -8,7 +8,7 @@ export async function GET(request:NextRequest) {
 }
 
 export async function POST(request:NextRequest) {
-    await addNewBoardImage(await boardImageFromPostRequest(request));
+    // await addNewBoardImage(await boardImageFromPostRequest(request));
 
     return Response.json({ status: 200 });
 }

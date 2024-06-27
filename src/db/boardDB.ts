@@ -99,4 +99,5 @@ export const addImageFileToStorage = async (file:File | null) => {
   } catch (e) {
     // catch
   }
+  return null;
 };
