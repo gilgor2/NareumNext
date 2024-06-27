@@ -31,7 +31,7 @@ const organizeColumnByRatio = (ratioArr: ImageRatioObj[], containerRatio: number
 export const useImageGroupOrganizer = (srcArr: string[], containerRatio: number) => {
   const [imageRatioArr, setimageRatioArr] = useState<ImageRatioObj[]>([]);
   const [columnArr, setcolumnArr] = useState<string[][]>([]);
-  const initimageRatioArr = () => {
+  const initImageRatioArr = () => {
     // imageRatioArr을 얻는 과정
     srcArr.forEach((src, i) => {
       const preloadImage = new Image();
@@ -63,7 +63,7 @@ export const useImageGroupOrganizer = (srcArr: string[], containerRatio: number)
   };
 
   useEffect(() => {
-    initimageRatioArr();
+    initImageRatioArr();
   }, [srcArr]);
   useEffect(() => {
     // if (imageRatioArr.length === srcArr.length) { // 로드 실패시 수가 일치하지 않을 수 있음.

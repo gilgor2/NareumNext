@@ -20,3 +20,15 @@ export function setDataToStorage(key: string, data: unknown) {
 export function getRandomFromArr(arr: any[]) {
   return arr[Math.floor(Math.random() * (arr.length - 1) + 0.3)];
 }
+
+export function throwWhenWrongFormat<T>(data: T, dataCheckFn = (d: T) => true) {
+  if (!dataCheckFn(data)) {
+    throw new Error('Wrong format : ');
+  }
+}
+
+export function throwWhenError(error: string | undefined) {
+  if (error) {
+    throw new Error(error);
+  }
+}

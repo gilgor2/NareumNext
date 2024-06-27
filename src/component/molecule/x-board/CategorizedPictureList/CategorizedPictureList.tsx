@@ -9,7 +9,7 @@ type Props = {
   onClickPlusButton: () => void;
 };
 
-export default function PictureListContainer({ title, srcArray, onClickPlusButton }: Props) {
+export default function CategorizedPictureList({ title, srcArray, onClickPlusButton }: Props) {
   return (
     <div className="border-black-100 flex h-[45%] w-[40%] flex-col justify-between rounded-m border-2 p-10">
       <div className="py-1rem flex items-center justify-between">
@@ -18,12 +18,12 @@ export default function PictureListContainer({ title, srcArray, onClickPlusButto
           edit
         </button>
       </div>
-      <div className="flex h-[90%] flex-wrap content-between justify-between rounded-sm bg-bgg p-5">
+      <div className="] grid  h-[90%] grid-cols-3  gap-10 rounded-sm bg-bgg p-5">
         {srcArray.map((src, i) => (
-          <ImageBox key={i} src={src} alt={src} width="30%" height="45%" />
+          <ImageBox key={i} src={src} alt={src} width="100%" height="100%" />
         ))}
         {srcArray.length < MAX_IMAGE_PER_CATEGORY && (
-          <PlusButton onClick={onClickPlusButton} className="h-[45%] w-[30%] !text-[5rem]" />
+          <PlusButton onClick={onClickPlusButton} className="h-[100%] w-[100%] !text-[5rem]" />
         )}
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { LegacyRef } from 'react';
+import React from 'react';
 import { useComponentSize } from '@/utility/hook/useComponentSize';
 import { useImageGroupOrganizer } from './hook';
 import PictureGroupColumn from '../../../molecule/x-board/PictureGroupColumn/PictureGroupColumn';
@@ -8,7 +8,7 @@ import PictureGroupColumn from '../../../molecule/x-board/PictureGroupColumn/Pic
 type Props = {
   imageSrcArr: string[];
 };
-export default function PictureGroup({ imageSrcArr }: Props) {
+export default function BoardByCategory({ imageSrcArr }: Props) {
   const { ref, height, width } = useComponentSize<HTMLDivElement>();
   const ratio = height / width;
   const { columnArr } = useImageGroupOrganizer(imageSrcArr, ratio);

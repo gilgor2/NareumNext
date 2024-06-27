@@ -1,27 +1,35 @@
 import { createGoal, selectTranscribeTime, updateTranscriptTime } from '@/db/goalDB';
+import { GoalDomainType } from '@/type/goal';
 import { RE_TRANSCRIBE_TIME_MS } from '@/utility/constants';
 
-class Goal {
+class Goal implements GoalDomainType {
     recentTranscriptTime = new Date();
+    // 다른 목표 차후 추가
 
-    async updateRecentTranscriptTimeFromDB() {
-       const { data, error } = await selectTranscribeTime();
-       if (data && data[0]) {
-        const date = new Date(data[0].recent_transcript_time);
-        this.recentTranscriptTime = date;
+    async initRecentTranscriptTimeFromDB() {
+       const recentTranscriptTime = await selectTranscribeTime();
+       if (recentTranscriptTime) {
+        this.recentTranscriptTime = new Date(recentTranscriptTime);
        } else {
-        await createGoal();
-        this.recentTranscriptTime = new Date();
+        const now = await createGoal();
+        this.recentTranscriptTime = now;
        }
+
+       return this;
     }
 
-    async setrecentTranscriptTime(date:Date) {
-        this.recentTranscriptTime = date;
-        await updateTranscriptTime(this.recentTranscriptTime);
+    async setrecentTranscriptTimeNow() {
+        await updateTranscriptTime(new Date());
+        return this;
     }
 
-    async checkIsRecentTranscirptTimePassed() {
-        await this.updateRecentTranscriptTimeFromDB();
+    async setrecentTranscriptTimeOld() {
+        await updateTranscriptTime(new Date(0));
+        return this;
+    }
+
+    async checkIsRecentTranscriptTimePassed() {
+        await this.initRecentTranscriptTimeFromDB();
 
         const recent = this.recentTranscriptTime.getTime();
         const now = new Date().getTime();

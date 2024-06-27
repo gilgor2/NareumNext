@@ -5,25 +5,39 @@ import { revalidatePath } from 'next/cache';
 import {
   checkIsRecentTranscriptTimePassed,
   getPromiseList,
+  updatePromiseAddCnt,
+  updateRecentTranscriptTimeNow,
 } from '../../../action/affirmationAction';
-import TranscribeList from '../../../component/molecule/x-affirmation/TranscribeList/TranscribeList';
+import TranscriberList from '../../../component/molecule/x-affirmation/TranscriberList/TranscriberList';
 import ActionButton from '../../../component/atom/common/ActionButton/ActionButton';
+
+const onDoneTranscribe = async () => {
+  'use server';
+
+  await updatePromiseAddCnt();
+  await updateRecentTranscriptTimeNow();
+
+  // noticeBlock은 transcriberList(client component)에서 관리
+  redirect('/affirmation/exhibit');
+};
 
 export default async function TranscribePage() {
   const promiseList = await getPromiseList();
-  const isTranscribedNeeded = await checkIsRecentTranscriptTimePassed();
+
+  // redirect on conditions
   if (promiseList.length === 0) {
     redirect('/affirmation/edit');
   }
-  if (isTranscribedNeeded === false) {
-    revalidatePath('/affirmation/exhibit', 'page');
+
+  const isTranscribeNeeded = await checkIsRecentTranscriptTimePassed();
+  if (!isTranscribeNeeded) {
     redirect('/affirmation/exhibit');
   }
 
   return (
     <>
       <div className="relative pr-[10rem]">
-        <TranscribeList promiseList={promiseList} />
+        <TranscriberList promiseList={promiseList} onDone={onDoneTranscribe} />
       </div>
       <Link href="/affirmation/edit">
         <ActionButton className="absolute right-10 top-[calc(50%-40px)] w-[5rem]">

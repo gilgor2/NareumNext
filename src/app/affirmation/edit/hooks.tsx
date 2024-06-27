@@ -1,48 +1,45 @@
-import { Promise } from '@/type/promise';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import {
+  addNewPromise,
+  deletePromise as deletePromiseAction,
+  getPromiseList,
+  updateRecentTranscriptTimeOld,
+} from '@/action/affirmationAction';
+import { NoticeContext } from '@/component/organism/common/NotificationBlockDispenser/hook';
+import Promise from '@/domain/promise';
+import { PromiseType } from '@/type/promise';
+import { MAX_PROMISE_COUNT, NOTICE_MESSAGE } from '@/utility/constants';
+import { useContext, useEffect, useState } from 'react';
 
+// hook
 export const usePromiseListEditPageState = () => {
-  const [promiseList, setpromiseList] = useState<Promise[]>([]);
+  const [promiseList, setpromiseList] = useState<PromiseType[]>([]);
+  const noticeStore = useContext(NoticeContext);
+  const noticeWhenTooMuchPromise = () => {
+    if (promiseList.length >= MAX_PROMISE_COUNT - 1) {
+      noticeStore.openNoticeForMs(<div>{NOTICE_MESSAGE.ENTER_BEFORE_MAX}</div>, 3000);
+    }
+  };
 
   const addPromise = async (text: string) => {
-    const newPromise: Promise = {
-      text,
-      transcribeCnt: 0,
-      date: new Date(),
-      id: 'tmp',
-    };
-    setpromiseList((arr) => [...arr, newPromise]);
-    await axios.post(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/promiseList`, {
-      data: { promise: text },
-    });
+    noticeWhenTooMuchPromise();
+    setpromiseList((arr) => [...arr, new Promise(text)]);
+    await addNewPromise(text);
   };
 
   const deletePromise = async (id: string) => {
-    setpromiseList((arr: Promise[]) => {
-      const tmpArr = [...arr];
-      tmpArr.splice(
-        tmpArr.findIndex((p) => p.id === id),
-        1,
-      );
-      return tmpArr;
-    });
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/promiseList`, { data: { id } });
+    setpromiseList((arr: PromiseType[]) => arr.filter((promise) => promise.id !== id));
+    await deletePromiseAction(id);
   };
 
   const initializePromiseList = async () => {
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/promiseList`);
-    setpromiseList(response.data);
-  };
-  const initializeRecentTranscriptTime = async () => {
-    await axios.post(`${process.env.NEXT_PUBLIC_API_ROUTER_URL}/goal`);
+    setpromiseList(await getPromiseList());
   };
 
   let once = true;
   useEffect(() => {
     if (once) {
       initializePromiseList();
-      initializeRecentTranscriptTime();
+      updateRecentTranscriptTimeOld();
     }
     once = false;
   }, []);
