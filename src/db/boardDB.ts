@@ -23,7 +23,7 @@ export const selectAllImage = async ():Promise<BoardImageType[]> => {
 
 export const addImage = async (image:BoardImageType) => {
     const supabase = createClient();
-  console.log(DBBoardImageFromBoardImage(image));
+
     try {
       const { error } = await supabase
       .from('board')
@@ -99,4 +99,5 @@ export const addImageFileToStorage = async (file:File | null) => {
   } catch (e) {
     // catch
   }
+  return null;
 };
