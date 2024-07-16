@@ -1,8 +1,8 @@
-name: dev-to-master
+name: devFront-to-dev
 
 on:
   push:
-    branches: ['dev']
+    branches: ['dev-front-*']
 
 permissions:
   actions: read
@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  build:
+  test-storybook:
     runs-on: ubuntu-latest
 
     strategy:
@@ -26,13 +26,18 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install concurrently wait-on
+          npm install
 
-      - name: Build Test
-        run: npm run build
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
-  pr-and-merge-to-master:
-    needs: [build]
+      - name: Run Storybook Test
+        run: npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npm run storybook" "npx wait-on tcp:6006 && npm run test-storybook"
+
+  pr-and-merge-to-dev:
+    needs: [test-storybook]
     runs-on: ubuntu-latest
 
     strategy:
@@ -43,7 +48,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create Pull Request On 'Master'
+      - name: Create Pull Request On 'Dev'
         uses: actions/github-script@v6
         with:
           github-token: ${{github.token}}
@@ -54,8 +59,8 @@ jobs:
               owner,
               repo,
               head: '${{ github.ref_name }}',
-              base: 'master',
-              body: "automated pr by github action"
+              base: 'dev',
+              body: "automated pr by github action. Storybook test done"
             });
             github.rest.issues.addLabels({
               owner,
