@@ -47,7 +47,7 @@ export default function PictureSearchSection({ onClickPicture }: Props) {
       </div>
       <div className="h-[3rem]" />
       <div className="flex h-[calc(100%-10rem)] flex-wrap gap-10 overflow-y-scroll">
-        {!imageSrcArr[0] && '목표와 관련된 이미지를 선택해주세요.'}
+        {!imageSrcArr[0] && '목표와 관련된 이미지를 검색해주세요.'}
         {imageSrcArr.map((src, i) => (
           <button
             type="button"
