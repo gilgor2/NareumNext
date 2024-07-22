@@ -11,6 +11,20 @@
 
 순간의 감정, 어젯밤의 다짐. 잊지 말아요. 모든 것은 마음머기 "나름"이니까요.
 
+## 개발
+- Vercel을 통해 배포합니다.
+- Supabase로 DB를 구성합니다.
+- Next.js로 Front-end, Backend를 구성합니다.
+    - Front-end는 Next.js의 App router를 기반으로 구현합니다.
+    - Back-end는 도메인 을 기반으로 구성합니다.
+        - Supabase 접근은 DB폴더 하위에서만 이루어집니다.
+        - 도메인에서는 DB폴더에 접근해 데이터를 받아, 요구 사항을 수행합니다.
+        - 서버 액션에서 도메인을 호출해 로직을 정의합니다.
+        - React코드에서 서버액션을 호출해 Data-fetching을 진행합니다.
+- Storybook, Jest로 test를 진행합니다.
+- githubAction, vercel로 CI/CD를 구성힙니다.
+
+  (의사 결정 과정은 https://blog.naver.com/robot0327 에서 확인하실 수 있습니다.)
 ---
 추가될 기능
 
@@ -21,3 +35,5 @@
 [] 비전보드 - 비전 보드 디자인 개선
 [] 확언 - 확언 순서 편집 기능 추가
 [] 접근성 개선
+[] SEO 개성
+[] DB정규화
