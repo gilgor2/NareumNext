@@ -36,7 +36,7 @@ export const Upload: Story = {
   },
 };
 
-export const MultipleUploadUpload: Story = {
+export const MultipleUpload: Story = {
   args: {
     setstate: jest.fn(),
   },
